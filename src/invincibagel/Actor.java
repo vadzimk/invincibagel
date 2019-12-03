@@ -9,8 +9,8 @@ import java.util.Arrays;
 import java.util.List;
 
 public abstract class Actor {
-    protected SVGPath spriteBound;
-    protected ImageView spriteFrame;
+    protected SVGPath spriteBound; // holds collision shape SVG polyline
+    protected ImageView spriteFrame; //holds sprite image assets
     protected List<Image> imageStates = new ArrayList<>();
     protected double iX, iY;  // initial location
     protected double pX, pY; // pivot point location
@@ -22,8 +22,6 @@ public abstract class Actor {
             hasValu,
             isFlipV,
             isFlipH;
-
-
 
     public Actor(String SVGdata, double xLocation, double yLocation, Image... spriteCels) {
         spriteBound = new SVGPath();

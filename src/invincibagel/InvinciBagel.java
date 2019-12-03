@@ -18,6 +18,9 @@ import javafx.stage.StageStyle;
 
 
 public class InvinciBagel extends Application {
+
+    static final double WIDTH = 640, HEIGHT = 400; //screen size
+
     private Scene scene;
     private StackPane root;
     private Image splashScreen, instructionLayer, legalLayer, scoresLayer;
@@ -38,11 +41,19 @@ public class InvinciBagel extends Application {
         primaryStge.setScene(scene);
         primaryStge.show();
 
-//        gameButton.setOnAction();
+        gameButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                splashScreenBackPlate.setVisible(false);
+                splashScreenTextArea.setVisible(false);
+            }
+        });
 
         helpButton.setOnAction(new EventHandler<ActionEvent>() { //EventHandler is an interface
             @Override
             public void handle(ActionEvent event) {
+                splashScreenBackPlate.setVisible(true);
+                splashScreenTextArea.setVisible(true);
                 splashScreenTextArea.setImage(instructionLayer);
             }
         });
@@ -50,6 +61,8 @@ public class InvinciBagel extends Application {
         scoreButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
+                splashScreenBackPlate.setVisible(true);
+                splashScreenTextArea.setVisible(true);
                 splashScreenTextArea.setImage(scoresLayer);
             }
         });
@@ -72,7 +85,7 @@ public class InvinciBagel extends Application {
      */
     private void createSplashScreenNodes() {
         root = new StackPane();
-        scene = new Scene(root, 640, 400);
+        scene = new Scene(root, WIDTH, HEIGHT, Color.WHITE);
 
         gameButton = new Button("Play Game");
         helpButton = new Button("Instructions");
