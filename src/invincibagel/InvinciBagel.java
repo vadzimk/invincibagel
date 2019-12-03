@@ -9,17 +9,19 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Background;
+import javafx.scene.input.KeyEvent;
+
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
+d;
 
 
 public class InvinciBagel extends Application {
 
     static final double WIDTH = 640, HEIGHT = 400; //screen size
+    boolean up, down, left, right; // key codes false by default
 
     private Scene scene;
     private StackPane root;
@@ -86,6 +88,36 @@ public class InvinciBagel extends Application {
     private void createSplashScreenNodes() {
         root = new StackPane();
         scene = new Scene(root, WIDTH, HEIGHT, Color.WHITE);
+
+        //add eventHandlers to the scene - not envolving any Scene Graph Nodes
+        scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent event) {
+                switch (event.getCode()){
+                    case W:
+                    case UP: up = true; break;
+                    case S:
+                    case DOWN: down =true; break;
+                    case A:
+                    case LEFT: left = true; break;
+                    case D:
+                    case RIGHT: right = true; break;
+                }
+            }
+        });
+
+        scene.setOnKeyReleased((KeyEvent event) ->{
+            switch (event.getCode()){
+                case W:
+                case UP: up = false; break;
+                case S:
+                case DOWN: down = false; break;
+                case A:
+                case LEFT: left = false; break;
+                case D:
+                case RIGHT: right = false; break;
+            }
+        });
 
         gameButton = new Button("Play Game");
         helpButton = new Button("Instructions");
