@@ -23,9 +23,11 @@ public class InvinciBagel extends Application {
     private Image splashScreen, instructionLayer, legalLayer, scoresLayer;
     private ImageView splashScreenBackPlate, splashScreenTextArea;
     private Button gameButton, helpButton, scoreButton, legalButton;
-    private HBox buttonContainer;
+    HBox buttonContainer;
     private Insets buttonContainerPadding;
 
+
+    private GamePlayLoop gamePlayLoop;
 
     @Override
     public void start(Stage primaryStge) {
@@ -58,6 +60,10 @@ public class InvinciBagel extends Application {
                 splashScreenTextArea.setImage(legalLayer);
             }
         });
+
+        //here create a dynamic object that will be processing the pulse-related logic
+        gamePlayLoop = new GamePlayLoop();
+        gamePlayLoop.start();
 
     }
 
