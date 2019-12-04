@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+
+//a class for a fixed sprite
 public abstract class Actor {
     protected SVGPath spriteBound; // holds collision shape SVG polyline
     protected ImageView spriteFrame; //holds sprite image assets

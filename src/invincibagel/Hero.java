@@ -2,6 +2,7 @@ package invincibagel;
 
 import javafx.scene.image.Image;
 
+//a class for a motion sprite
 public abstract class Hero extends Actor {
 
     //hold data about motion of sprites:
