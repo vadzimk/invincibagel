@@ -12,4 +12,9 @@ public class Bagel extends Hero {
     protected void update() {
 
     }
+
+    @Override
+    public boolean collide(Actor object) {
+        return super.collide(object);
+    }
 }
