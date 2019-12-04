@@ -25,7 +25,7 @@ public class InvinciBagel extends Application {
     private Scene scene;
     private StackPane root;
 
-    static Bagel iBagel;
+    Bagel iBagel; //package access
 
     private Image splashScreen, instructionLayer, legalLayer, scoresLayer;
     private Image iB0, iB1, iB2, iB3, iB4, iB5, iB6, iB7, iB8;
@@ -218,7 +218,7 @@ public class InvinciBagel extends Application {
      */
     private void createStartGameLoop() {
         //here create a dynamic object that will be processing the pulse-related logic
-        gamePlayLoop = new GamePlayLoop();
+        gamePlayLoop = new GamePlayLoop(this);
         gamePlayLoop.start();
     }
 
