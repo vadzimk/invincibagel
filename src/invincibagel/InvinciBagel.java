@@ -54,7 +54,9 @@ public class InvinciBagel extends Application {
         createSplashScreenNodes();
         loadImageAssets();
         createSceneEventHandling();
-        addNodesToStackPane();
+        createGameActors(); // creates actors
+        addGameActorNodes(); // adds actors to the scene
+        addNodesToStackPane(); // overlays solid splashscreen stackplate on top of the game field
 
         gameButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -95,7 +97,9 @@ public class InvinciBagel extends Application {
 
     }
 
-    /** Scene Graph node creation */
+    /**
+     * Scene Graph node creation
+     */
     private void createSplashScreenNodes() {
         gameButton = new Button("Play Game");
         helpButton = new Button("Instructions");
@@ -109,7 +113,9 @@ public class InvinciBagel extends Application {
         buttonContainer.getChildren().addAll(gameButton, helpButton, scoreButton, legalButton);
     }
 
-    /** Adds the nodes to stackPane root node */
+    /**
+     * Adds the nodes to stackPane root node
+     */
     private void addNodesToStackPane() {
         root.getChildren().addAll(
                 splashScreenBackPlate,
@@ -117,7 +123,9 @@ public class InvinciBagel extends Application {
                 buttonContainer);
     }
 
-    /** Scene Event handling */
+    /**
+     * Scene Event handling
+     */
     private void createSceneEventHandling() {
         //add eventHandlers to the scene - not envolving any Scene Graph Nodes
         scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
@@ -165,31 +173,41 @@ public class InvinciBagel extends Application {
         });
     }
 
-    /** Load images of sprites into memory*/
-    private void loadImageAssets(){
+    /**
+     * Load images of sprites into memory
+     */
+    private void loadImageAssets() {
         splashScreen = new Image("/invincibagelsplash.png", 640, 400, true, false, true);
         instructionLayer = new Image("/invincibagelinstruct.png", 640, 400, true, false, true);
         legalLayer = new Image("/invincibagelcreds.png", 640, 400, true, false, true);
         scoresLayer = new Image("/invincibagelscores.png", 640, 400, true, false, true);
-        iB0 = new Image("/sprite0.png", 81,81,true,false,true);
-        iB1 = new Image("/sprite1.png", 81,81,true,false,true);
-        iB2 = new Image("/sprite2.png", 81,81,true,false,true);
-        iB3 = new Image("/sprite3.png", 81,81,true,false,true);
-        iB4 = new Image("/sprite4.png", 81,81,true,false,true);
-        iB5 = new Image("/sprite5.png", 81,81,true,false,true);
-        iB6 = new Image("/sprite6.png", 81,81,true,false,true);
-        iB7 = new Image("/sprite7.png", 81,81,true,false,true);
-        iB8 = new Image("/sprite8.png", 81,81,true,false,true);
+        iB0 = new Image("/sprite0.png", 81, 81, true, false, true);
+        iB1 = new Image("/sprite1.png", 81, 81, true, false, true);
+        iB2 = new Image("/sprite2.png", 81, 81, true, false, true);
+        iB3 = new Image("/sprite3.png", 81, 81, true, false, true);
+        iB4 = new Image("/sprite4.png", 81, 81, true, false, true);
+        iB5 = new Image("/sprite5.png", 81, 81, true, false, true);
+        iB6 = new Image("/sprite6.png", 81, 81, true, false, true);
+        iB7 = new Image("/sprite7.png", 81, 81, true, false, true);
+        iB8 = new Image("/sprite8.png", 81, 81, true, false, true);
 
 
         splashScreenBackPlate = new ImageView(splashScreen);
         splashScreenTextArea = new ImageView(instructionLayer);
     }
 
-    /** Create Game Actor objects */
-    private void createGameActors(){
-        iBagel = new Bagel("M150 0 L75 500 L 225 200 Z",0,0,iB0,iB1,iB2,iB3,iB4,iB5,iB6,iB7,iB8 );
+    /**
+     * Create Game Actor objects
+     */
+    private void createGameActors() {
+        iBagel = new Bagel("M150 0 L75 500 L 225 200 Z", 0, 0, iB0, iB1, iB2, iB3, iB4, iB5, iB6, iB7, iB8);
+    }
 
+    /**
+     * Adds actor objects to the scene
+     */
+    private void addGameActorNodes() {
+        root.getChildren().add(iBagel.spriteFrame);
     }
 
 }

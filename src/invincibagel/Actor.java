@@ -12,7 +12,7 @@ import java.util.List;
 //a class for a fixed sprite
 public abstract class Actor {
     protected SVGPath spriteBound; // holds collision shape SVG polyline
-    protected ImageView spriteFrame; //holds sprite image assets
+    protected ImageView spriteFrame; //holds current sprite image
     protected List<Image> imageStates = new ArrayList<>();
     protected double iX, iY;  // initial location
     protected double pX, pY; // pivot point location
