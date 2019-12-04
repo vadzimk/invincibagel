@@ -17,31 +17,44 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 
-
 public class InvinciBagel extends Application {
 
     static final double WIDTH = 640, HEIGHT = 400; //screen size
     boolean up, down, left, right; // key codes false by default
-
+    private HBox buttonContainer;
     private Scene scene;
     private StackPane root;
+
+    static Bagel iBagel;
+
     private Image splashScreen, instructionLayer, legalLayer, scoresLayer;
+    private Image iB0, iB1, iB2, iB3, iB4, iB5, iB6, iB7, iB8;
     private ImageView splashScreenBackPlate, splashScreenTextArea;
     private Button gameButton, helpButton, scoreButton, legalButton;
-    HBox buttonContainer;
     private Insets buttonContainerPadding;
 
 
     private GamePlayLoop gamePlayLoop;
+    CastingDirector castingDirector;
+
+    public static void main(String[] args) {
+        launch(args);
+    }
 
     @Override
     public void start(Stage primaryStge) {
-        createSplashScreenNodes();
-        addNodesToStackPane();
+        root = new StackPane();
+        scene = new Scene(root, WIDTH, HEIGHT, Color.WHITE);
+
 
         primaryStge.setTitle("InvinciBagel");
         primaryStge.setScene(scene);
         primaryStge.show();
+
+        createSplashScreenNodes();
+        loadImageAssets();
+        createSceneEventHandling();
+        addNodesToStackPane();
 
         gameButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -82,43 +95,8 @@ public class InvinciBagel extends Application {
 
     }
 
-    /**
-     * Scene Graph node creation
-     */
+    /** Scene Graph node creation */
     private void createSplashScreenNodes() {
-        root = new StackPane();
-        scene = new Scene(root, WIDTH, HEIGHT, Color.WHITE);
-
-        //add eventHandlers to the scene - not envolving any Scene Graph Nodes
-        scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(KeyEvent event) {
-                switch (event.getCode()){
-                    case W:
-                    case UP: up = true; break;
-                    case S:
-                    case DOWN: down =true; break;
-                    case A:
-                    case LEFT: left = true; break;
-                    case D:
-                    case RIGHT: right = true; break;
-                }
-            }
-        });
-
-        scene.setOnKeyReleased((KeyEvent event) ->{
-            switch (event.getCode()){
-                case W:
-                case UP: up = false; break;
-                case S:
-                case DOWN: down = false; break;
-                case A:
-                case LEFT: left = false; break;
-                case D:
-                case RIGHT: right = false; break;
-            }
-        });
-
         gameButton = new Button("Play Game");
         helpButton = new Button("Instructions");
         scoreButton = new Button("High scores");
@@ -129,23 +107,9 @@ public class InvinciBagel extends Application {
         buttonContainerPadding = new Insets(0, 0, 10, 16);
         buttonContainer.setPadding(buttonContainerPadding);
         buttonContainer.getChildren().addAll(gameButton, helpButton, scoreButton, legalButton);
-
-        splashScreen = new Image("/invincibagelsplash.png", 640, 400, true, false, true);
-        splashScreenBackPlate = new ImageView(splashScreen);
-
-        instructionLayer = new Image("/invincibagelinstruct.png", 640, 400, true, false, true);
-        splashScreenTextArea = new ImageView(instructionLayer);
-
-        legalLayer = new Image("/invincibagelcreds.png", 640, 400, true, false, true);
-
-        scoresLayer = new Image("/invincibagelscores.png", 640, 400, true, false, true);
-
-
     }
 
-    /**
-     * Adds the nodes to stackPane root node
-     */
+    /** Adds the nodes to stackPane root node */
     private void addNodesToStackPane() {
         root.getChildren().addAll(
                 splashScreenBackPlate,
@@ -153,7 +117,72 @@ public class InvinciBagel extends Application {
                 buttonContainer);
     }
 
-    public static void main(String[] args) {
-        launch(args);
+    /** Scene Event handling */
+    private void createSceneEventHandling() {
+        //add eventHandlers to the scene - not envolving any Scene Graph Nodes
+        scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent event) {
+                switch (event.getCode()) {
+                    case W:
+                    case UP:
+                        up = true;
+                        break;
+                    case S:
+                    case DOWN:
+                        down = true;
+                        break;
+                    case A:
+                    case LEFT:
+                        left = true;
+                        break;
+                    case D:
+                    case RIGHT:
+                        right = true;
+                        break;
+                }
+            }
+        });
+        scene.setOnKeyReleased((KeyEvent event) -> {
+            switch (event.getCode()) {
+                case W:
+                case UP:
+                    up = false;
+                    break;
+                case S:
+                case DOWN:
+                    down = false;
+                    break;
+                case A:
+                case LEFT:
+                    left = false;
+                    break;
+                case D:
+                case RIGHT:
+                    right = false;
+                    break;
+            }
+        });
+    }
+
+    /** Load images of sprites into memory*/
+    private void loadImageAssets(){
+        splashScreen = new Image("/invincibagelsplash.png", 640, 400, true, false, true);
+        instructionLayer = new Image("/invincibagelinstruct.png", 640, 400, true, false, true);
+        legalLayer = new Image("/invincibagelcreds.png", 640, 400, true, false, true);
+        scoresLayer = new Image("/invincibagelscores.png", 640, 400, true, false, true);
+        iB0 = new Image("/sprite0.png", 81,81,true,false,true);
+        iB1 = new Image("/sprite1.png", 81,81,true,false,true);
+        iB2 = new Image("/sprite2.png", 81,81,true,false,true);
+        iB3 = new Image("/sprite3.png", 81,81,true,false,true);
+        iB4 = new Image("/sprite4.png", 81,81,true,false,true);
+        iB5 = new Image("/sprite5.png", 81,81,true,false,true);
+        iB6 = new Image("/sprite6.png", 81,81,true,false,true);
+        iB7 = new Image("/sprite7.png", 81,81,true,false,true);
+        iB8 = new Image("/sprite8.png", 81,81,true,false,true);
+
+
+        splashScreenBackPlate = new ImageView(splashScreen);
+        splashScreenTextArea = new ImageView(instructionLayer);
     }
 }
