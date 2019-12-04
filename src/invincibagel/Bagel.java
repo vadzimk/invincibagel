@@ -14,6 +14,17 @@ public class Bagel extends Hero {
     @Override
     protected void update() {
         //will be called on the object in the handle method of the GamePlayloop of AnimationTimer Class
+        setXYLocation();
+        moveInvinciBagel(iX, iY);
+
+    }
+
+    @Override
+    public boolean collide(Actor object) {
+        return super.collide(object);
+    }
+
+    private void setXYLocation() {
         if (invinciBagel.isRight()) {
             iX += vX;
         }
@@ -26,13 +37,12 @@ public class Bagel extends Hero {
         if (invinciBagel.isUp()) {
             iY -= vY;
         }
-
-        spriteFrame.setTranslateX(iX);
-        spriteFrame.setTranslateY(iY);
     }
 
-    @Override
-    public boolean collide(Actor object) {
-        return super.collide(object);
+    private void moveInvinciBagel(double x, double y) {
+        spriteFrame.setTranslateX(x);
+        spriteFrame.setTranslateY(y);
     }
+
+
 }
