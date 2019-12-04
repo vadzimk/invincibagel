@@ -55,6 +55,7 @@ public class InvinciBagel extends Application {
         loadImageAssets();
         createSceneEventHandling();
         createGameActors(); // creates actors
+        createCastingDirection(); //add actors to the cast
         addGameActorNodes(); // adds actors to the scene
         addNodesToStackPane(); // overlays solid splashscreen stackplate on top of the game field
 
@@ -208,6 +209,12 @@ public class InvinciBagel extends Application {
      */
     private void addGameActorNodes() {
         root.getChildren().add(iBagel.spriteFrame);
+    }
+
+    //
+    private void createCastingDirection(){
+        castingDirector = new CastingDirector();
+        castingDirector.addCurrentCast(iBagel);
     }
 
 }
