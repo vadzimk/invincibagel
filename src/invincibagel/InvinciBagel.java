@@ -44,6 +44,7 @@ public class InvinciBagel extends Application {
     @Override
     public void start(Stage primaryStge) {
         root = new StackPane();
+        //root.setAlignment(Pos.TOP_LEFT); with .setAlignment() I can position elements added to the stackPane the way other than default: POS_CENTER
         scene = new Scene(root, WIDTH, HEIGHT, Color.WHITE);
 
         primaryStge.setTitle("InvinciBagel");
