@@ -185,4 +185,11 @@ public class InvinciBagel extends Application {
         splashScreenBackPlate = new ImageView(splashScreen);
         splashScreenTextArea = new ImageView(instructionLayer);
     }
+
+    /** Create Game Actor objects */
+    private void createGameActors(){
+        iBagel = new Bagel("M150 0 L75 500 L 225 200 Z",0,0,iB0,iB1,iB2,iB3,iB4,iB5,iB6,iB7,iB8 );
+
+    }
+
 }
