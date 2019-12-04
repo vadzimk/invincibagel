@@ -20,7 +20,7 @@ import javafx.stage.Stage;
 public class InvinciBagel extends Application {
 
     static final double WIDTH = 640, HEIGHT = 400; //screen size
-    boolean up, down, left, right; // key codes false by default
+    private boolean up, down, left, right; // key codes false by default
     private HBox buttonContainer;
     private Scene scene;
     private StackPane root;
@@ -46,19 +46,31 @@ public class InvinciBagel extends Application {
         root = new StackPane();
         scene = new Scene(root, WIDTH, HEIGHT, Color.WHITE);
 
-
         primaryStge.setTitle("InvinciBagel");
         primaryStge.setScene(scene);
         primaryStge.show();
 
-        createSplashScreenNodes();
-        loadImageAssets();
         createSceneEventHandling();
+        loadImageAssets();
         createGameActors(); // creates actors
-        createCastingDirection(); //add actors to the cast
         addGameActorNodes(); // adds actors to the scene
+        createCastingDirection(); //add actors to the cast
+        createSplashScreenNodes();
         addNodesToStackPane(); // overlays solid splashscreen stackplate on top of the game field
+        createStartGameLoop();
 
+    }
+
+    /**
+     * Scene Graph node creation
+     */
+    private void createSplashScreenNodes() {
+        buttonContainer = new HBox(12);
+        buttonContainer.setAlignment(Pos.BOTTOM_LEFT);
+        buttonContainerPadding = new Insets(0, 0, 10, 16);
+        buttonContainer.setPadding(buttonContainerPadding);
+
+        gameButton = new Button("Play Game");
         gameButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -67,6 +79,7 @@ public class InvinciBagel extends Application {
             }
         });
 
+        helpButton = new Button("Instructions");
         helpButton.setOnAction(new EventHandler<ActionEvent>() { //EventHandler is an interface
             @Override
             public void handle(ActionEvent event) {
@@ -76,6 +89,7 @@ public class InvinciBagel extends Application {
             }
         });
 
+        scoreButton = new Button("High scores");
         scoreButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -85,6 +99,7 @@ public class InvinciBagel extends Application {
             }
         });
 
+        legalButton = new Button("Legal & credits");
         legalButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -92,26 +107,9 @@ public class InvinciBagel extends Application {
             }
         });
 
-        //here create a dynamic object that will be processing the pulse-related logic
-        gamePlayLoop = new GamePlayLoop();
-        gamePlayLoop.start();
-
-    }
-
-    /**
-     * Scene Graph node creation
-     */
-    private void createSplashScreenNodes() {
-        gameButton = new Button("Play Game");
-        helpButton = new Button("Instructions");
-        scoreButton = new Button("High scores");
-        legalButton = new Button("Legal & credits");
-
-        buttonContainer = new HBox(12);
-        buttonContainer.setAlignment(Pos.BOTTOM_LEFT);
-        buttonContainerPadding = new Insets(0, 0, 10, 16);
-        buttonContainer.setPadding(buttonContainerPadding);
         buttonContainer.getChildren().addAll(gameButton, helpButton, scoreButton, legalButton);
+        splashScreenBackPlate = new ImageView(splashScreen);
+        splashScreenTextArea = new ImageView(instructionLayer);
     }
 
     /**
@@ -191,17 +189,13 @@ public class InvinciBagel extends Application {
         iB6 = new Image("/sprite6.png", 81, 81, true, false, true);
         iB7 = new Image("/sprite7.png", 81, 81, true, false, true);
         iB8 = new Image("/sprite8.png", 81, 81, true, false, true);
-
-
-        splashScreenBackPlate = new ImageView(splashScreen);
-        splashScreenTextArea = new ImageView(instructionLayer);
     }
 
     /**
      * Create Game Actor objects
      */
     private void createGameActors() {
-        iBagel = new Bagel("M150 0 L75 500 L 225 200 Z", 0, 0, iB0, iB1, iB2, iB3, iB4, iB5, iB6, iB7, iB8);
+        iBagel = new Bagel(this, "M150 0 L75 500 L 225 200 Z", 0, 0, iB0, iB1, iB2, iB3, iB4, iB5, iB6, iB7, iB8); //the this references the current Invincibagel object that is the 1st parameter of the Bagel constructor
     }
 
     /**
@@ -211,10 +205,55 @@ public class InvinciBagel extends Application {
         root.getChildren().add(iBagel.spriteFrame);
     }
 
-    //
-    private void createCastingDirection(){
+    /**
+     * creates CastingDirecor and adds actors to the cast
+     */
+    private void createCastingDirection() {
         castingDirector = new CastingDirector();
         castingDirector.addCurrentCast(iBagel);
     }
 
+    /**
+     * Create and start the gameLoop
+     */
+    private void createStartGameLoop() {
+        //here create a dynamic object that will be processing the pulse-related logic
+        gamePlayLoop = new GamePlayLoop();
+        gamePlayLoop.start();
+    }
+
+    // ---------- Getter for key codes ---
+    public boolean isUp() {
+        return up;
+    }
+
+    public boolean isDown() {
+        return down;
+    }
+
+    public boolean isLeft() {
+        return left;
+    }
+
+    public boolean isRight() {
+        return right;
+    }
+
+    // ---------- Setter for key codes ----
+
+    public void setUp(boolean up) {
+        this.up = up;
+    }
+
+    public void setDown(boolean down) {
+        this.down = down;
+    }
+
+    public void setLeft(boolean left) {
+        this.left = left;
+    }
+
+    public void setRight(boolean right) {
+        this.right = right;
+    }
 }

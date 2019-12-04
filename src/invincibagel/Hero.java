@@ -7,8 +7,8 @@ public abstract class Hero extends Actor {
 
     //hold data about motion of sprites:
     protected double
-            vX,
-            vY,
+            vX, //velocity of movement
+            vY, //velocity of movement
             lifeSpan,
             damage,
             offsetX,
@@ -22,7 +22,8 @@ public abstract class Hero extends Actor {
     public Hero(String SVGdata, double xLocation, double yLocation, Image... spriteCels) {
         super(SVGdata, xLocation, yLocation, spriteCels);
         lifeSpan = 1000;
-        vX = vY = damage = offsetX = offsetY = 0;
+        vX = vY = 1;
+        damage = offsetX = offsetY = 0;
         boundScale = boundRot = friction = gravity = bounce = 0;
     }
 
