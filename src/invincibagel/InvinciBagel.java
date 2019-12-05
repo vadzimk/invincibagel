@@ -23,6 +23,7 @@ public class InvinciBagel extends Application {
 
     static final double WIDTH = 640, HEIGHT = 400; //screen size
     private boolean up, down, left, right; // key codes false by default
+    private boolean wKey, aKey, sKey, dKey; // key codes false by default
     private HBox buttonContainer;
     private Scene scene;
     private StackPane root;
@@ -137,18 +138,26 @@ public class InvinciBagel extends Application {
             public void handle(KeyEvent event) {
                 switch (event.getCode()) {
                     case W:
+                        wKey = true;
+                        break;
                     case UP:
                         up = true;
                         break;
                     case S:
+                        sKey = true;
+                        break;
                     case DOWN:
                         down = true;
                         break;
                     case A:
+                        aKey = true;
+                        break;
                     case LEFT:
                         left = true;
                         break;
                     case D:
+                        dKey = true;
+                        break;
                     case RIGHT:
                         right = true;
                         break;
@@ -158,18 +167,26 @@ public class InvinciBagel extends Application {
         scene.setOnKeyReleased((KeyEvent event) -> {
             switch (event.getCode()) {
                 case W:
+                    wKey = false;
+                    break;
                 case UP:
                     up = false;
                     break;
                 case S:
+                    wKey = false;
+                    break;
                 case DOWN:
                     down = false;
                     break;
                 case A:
+                    aKey = false;
+                    break;
                 case LEFT:
                     left = false;
                     break;
                 case D:
+                    dKey = false;
+                    break;
                 case RIGHT:
                     right = false;
                     break;
@@ -244,6 +261,22 @@ public class InvinciBagel extends Application {
         return right;
     }
 
+    public boolean iswKey() {
+        return wKey;
+    }
+
+    public boolean isaKey() {
+        return aKey;
+    }
+
+    public boolean issKey() {
+        return sKey;
+    }
+
+    public boolean isdKey() {
+        return dKey;
+    }
+
     // ---------- Setter for key codes ----
 
     public void setUp(boolean up) {
@@ -260,5 +293,21 @@ public class InvinciBagel extends Application {
 
     public void setRight(boolean right) {
         this.right = right;
+    }
+
+    public void setwKey(boolean wKey) {
+        this.wKey = wKey;
+    }
+
+    public void setaKey(boolean aKey) {
+        this.aKey = aKey;
+    }
+
+    public void setsKey(boolean sKey) {
+        this.sKey = sKey;
+    }
+
+    public void setdKey(boolean dKey) {
+        this.dKey = dKey;
     }
 }
