@@ -91,9 +91,9 @@ public class Bagel extends Hero {
 
         // Run state:
         if (invinciBagel.isRight()) {
-
             spriteFrame.setScaleX(1); // no mirroring the imageView
-            if (!animator) {
+
+            if (!animator && (!invinciBagel.isDown() && !invinciBagel.isUp())) {
                 spriteFrame.setImage(imageStates.get(1));
                 if (frameCounter >= runningSpeed) {
                     animator = true;
@@ -113,9 +113,9 @@ public class Bagel extends Hero {
             }
         }
         if (invinciBagel.isLeft()) {
-
             spriteFrame.setScaleX(-1); // mirror the imageView around Y axis
-            if (!animator) {
+
+            if (!animator && (!invinciBagel.isDown() && !invinciBagel.isUp())) {
                 spriteFrame.setImage(imageStates.get(1));
                 if (frameCounter >= runningSpeed) {
                     animator = true;
