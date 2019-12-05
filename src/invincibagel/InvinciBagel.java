@@ -11,10 +11,12 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 
+import javafx.scene.layout.Background;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 
 public class InvinciBagel extends Application {
@@ -45,9 +47,11 @@ public class InvinciBagel extends Application {
     public void start(Stage primaryStge) {
         root = new StackPane();
         //root.setAlignment(Pos.TOP_LEFT); with .setAlignment() I can position elements added to the stackPane the way other than default: POS_CENTER
-        scene = new Scene(root, WIDTH, HEIGHT, Color.WHITE);
+        root.setBackground(Background.EMPTY);
+        scene = new Scene(root, WIDTH, HEIGHT, Color.DARKGREY);
 
         primaryStge.setTitle("InvinciBagel");
+        primaryStge.initStyle(StageStyle.TRANSPARENT); //makes the stage transparent
         primaryStge.setScene(scene);
         primaryStge.show();
 
