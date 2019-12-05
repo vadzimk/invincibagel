@@ -23,7 +23,7 @@ public abstract class Actor {
             isBonus,
             hasValu,
             isFlipV,
-            isFlipH;
+            isFlipH; //holds the state of the imageView prop - flipped true when the setScale(-1)
 
     public Actor(String SVGdata, double xLocation, double yLocation, Image... spriteCels) {
         spriteBound = new SVGPath();

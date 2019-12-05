@@ -17,6 +17,7 @@ public class Bagel extends Hero {
     int frameCounter = 0;
     int runningSpeed = 6; // holds the number of animator cycles to skip before changing the ImageView
 
+
     public Bagel(InvinciBagel iBagel, String SVGdata, double xLocation, double yLocation, Image... spriteCels) {
         super(SVGdata, xLocation, yLocation, spriteCels);
         invinciBagel = iBagel;
@@ -92,6 +93,7 @@ public class Bagel extends Hero {
         // Run state:
         if (invinciBagel.isRight()) {
             spriteFrame.setScaleX(1); // no mirroring the imageView
+            this.setFlipH(false);
 
             if (!animator && (!invinciBagel.isDown() && !invinciBagel.isUp())) {
                 spriteFrame.setImage(imageStates.get(1));
@@ -114,6 +116,7 @@ public class Bagel extends Hero {
         }
         if (invinciBagel.isLeft()) {
             spriteFrame.setScaleX(-1); // mirror the imageView around Y axis
+            this.setFlipH(true);
 
             if (!animator && (!invinciBagel.isDown() && !invinciBagel.isUp())) {
                 spriteFrame.setImage(imageStates.get(1));
@@ -135,15 +138,27 @@ public class Bagel extends Hero {
             }
         }
 
-        // Jump state:
+        // landing state
         if (invinciBagel.isDown()) {
             spriteFrame.setImage(imageStates.get(6));
         }
+        //leap up state
         if (invinciBagel.isUp()) {
             spriteFrame.setImage(imageStates.get(4));
         }
 
+        // jump over state
+        if(invinciBagel.iswKey()){
+            spriteFrame.setImage(imageStates.get(5));
+        }
+
+        //evade state
+        if(invinciBagel.issKey()){
+            spriteFrame.setImage(imageStates.get(8));
+        }
+
     }
+
 
     /**
      * relocate the ImageView object of the sprite

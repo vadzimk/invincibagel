@@ -137,58 +137,60 @@ public class InvinciBagel extends Application {
             @Override
             public void handle(KeyEvent event) {
                 switch (event.getCode()) {
-                    case W:
-                        wKey = true;
-                        break;
+
                     case UP:
                         up = true;
-                        break;
-                    case S:
-                        sKey = true;
                         break;
                     case DOWN:
                         down = true;
                         break;
-                    case A:
-                        aKey = true;
-                        break;
                     case LEFT:
                         left = true;
                         break;
-                    case D:
-                        dKey = true;
-                        break;
                     case RIGHT:
                         right = true;
+                        break;
+                    case W:
+                        wKey = true;
+                        break;
+                    case S:
+                        sKey = true;
+                        break;
+                    case A:
+                        aKey = true;
+                        break;
+                    case D:
+                        dKey = true;
                         break;
                 }
             }
         });
         scene.setOnKeyReleased((KeyEvent event) -> {
             switch (event.getCode()) {
-                case W:
-                    wKey = false;
-                    break;
+
                 case UP:
                     up = false;
-                    break;
-                case S:
-                    wKey = false;
                     break;
                 case DOWN:
                     down = false;
                     break;
-                case A:
-                    aKey = false;
-                    break;
                 case LEFT:
                     left = false;
                     break;
-                case D:
-                    dKey = false;
-                    break;
                 case RIGHT:
                     right = false;
+                    break;
+                case W:
+                    wKey = false;
+                    break;
+                case S:
+                    sKey = false;
+                    break;
+                case A:
+                    aKey = false;
+                    break;
+                case D:
+                    dKey = false;
                     break;
             }
         });
