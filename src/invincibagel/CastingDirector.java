@@ -2,11 +2,13 @@ package invincibagel;
 
 import java.util.*;
 
+//this class serves as a collision processing guide
 public class CastingDirector {
     private final List<Actor> CURRENT_CAST;  //holds objects currently in the scene, the list is mutable - reference to it is not.
     private final List<Actor> COLLIDE_CHECKLIST;//holds objects that are participating in collision detection
     private final Set<Actor> REMOVED_ACTORS; //hold Actors that need to be removed from the current Scene
 
+    /** Checks for collision of the iBagel with the actors that are in the current cast*/
     public CastingDirector() {
         this.CURRENT_CAST = new ArrayList<>();
         this.COLLIDE_CHECKLIST = new ArrayList<>();
@@ -18,6 +20,7 @@ public class CastingDirector {
         return CURRENT_CAST;
     }
 
+   /** Adds to the list of check for collision in the scene with the main character - iBagel*/
     public void addCurrentCast(Actor... actors) {
         CURRENT_CAST.addAll(Arrays.asList(actors));
     }

@@ -248,16 +248,18 @@ public class InvinciBagel extends Application {
         iB7 = new Image("/sprite7.png", 81, 81, true, false, true);
         iB8 = new Image("/sprite8.png", 81, 81, true, false, true);
         iP0 = new Image("/prop0.png", 82, 32, true, false, true);
-        iP1 = new Image("/prop1.png", 496, 92, true, false, true);
+//        iP1 = new Image("/prop1.png", 496, 92, true, false, true);
     }
 
     /**
      * Create Game Actor objects
      */
     private void createGameActors() {
-        iBagel = new Bagel(this, "M150 0 L75 500 L 225 200 Z", 0, 0, iB0, iB1, iB2, iB3, iB4, iB5, iB6, iB7, iB8); //the this references the current Invincibagel object that is the 1st parameter of the Bagel constructor
+        iBagel = new Bagel(this,
+                "M57,10 L46,25 30,26 30,41 18,41 18,44 27,56 37,57 35,75 39,81 43,81 45,53 54,40 63,43 72,26 Z",
+                0, 0, iB0, iB1, iB2, iB3, iB4, iB5, iB6, iB7, iB8); //the this references the current Invincibagel object that is the 1st parameter of the Bagel constructor
 
-        iPR0 = new Prop("M150 0 L75 200 L225 200 Z", 0, 148, iP0); // static brick wall basic object
+        iPR0 = new Prop("M0 0 L0 32 72 32 72 0 Z", 0, 148, iP0); // static brick wall basic object
         iPR1 = new Prop("M150 0 L75 200 L225 200 Z", 0, -150, iP1);  // big background image object
         iPV1 = new PropV("M150 0 L75 200 L225 200 Z", 0, -58, iP1); // flipped big background image object
         iPH0 = new PropH("M150 0 L75 200 L225 200 Z", 72, 148, iP0); // static brick wall flipped H object
@@ -271,8 +273,8 @@ public class InvinciBagel extends Application {
     private void addGameActorNodes() {
 
         root.getChildren().add(iPR0.spriteFrame);
-        root.getChildren().add(iPR1.spriteFrame);
-        root.getChildren().add(iPV1.spriteFrame);
+//        root.getChildren().add(iPR1.spriteFrame); //large background image
+//        root.getChildren().add(iPV1.spriteFrame); //large background image
         root.getChildren().add(iPH0.spriteFrame);
         root.getChildren().add(iPV0.spriteFrame);
         root.getChildren().add(iPB0.spriteFrame);
@@ -285,13 +287,7 @@ public class InvinciBagel extends Application {
      */
     private void createCastingDirection() {
         castingDirector = new CastingDirector();
-        castingDirector.addCurrentCast(iBagel);
-        castingDirector.addCurrentCast(iPR0);
-        castingDirector.addCurrentCast(iPR1);
-        castingDirector.addCurrentCast(iPV1);
-        castingDirector.addCurrentCast(iPH0);
-        castingDirector.addCurrentCast(iPV0);
-        castingDirector.addCurrentCast(iPB0);
+        castingDirector.addCurrentCast(iPR0, iPH0, iPV0, iPB0);
     }
 
     /**
