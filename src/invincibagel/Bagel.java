@@ -30,6 +30,7 @@ public class Bagel extends Hero {
         setBoundaries();
         setImageState();
         moveInvinciBagel(iX, iY);
+        playAudioClip();
     }
 
 
@@ -132,7 +133,7 @@ public class Bagel extends Hero {
                 if (frameCounter >= runningSpeed) {
                     animator = false;
                     frameCounter = 0;
-                } else{
+                } else {
                     ++frameCounter;
                 }
             }
@@ -148,12 +149,12 @@ public class Bagel extends Hero {
         }
 
         // jump over state
-        if(invinciBagel.iswKey()){
+        if (invinciBagel.iswKey()) {
             spriteFrame.setImage(imageStates.get(5));
         }
 
         //evade state
-        if(invinciBagel.issKey()){
+        if (invinciBagel.issKey()) {
             spriteFrame.setImage(imageStates.get(8));
         }
 
@@ -168,5 +169,14 @@ public class Bagel extends Hero {
         spriteFrame.setTranslateY(y);
     }
 
+    private void playAudioClip() {
+        if (invinciBagel.isLeft()) invinciBagel.playiSound0();
+        if (invinciBagel.isRight()) invinciBagel.playiSound1();
+        if (invinciBagel.isUp()) invinciBagel.playiSound2();
+        if (invinciBagel.isDown()) invinciBagel.playiSound3();
+        if (invinciBagel.iswKey()) invinciBagel.playiSound4();
+        if (invinciBagel.issKey()) invinciBagel.playiSound5();
+
+    }
 
 }

@@ -211,6 +211,7 @@ public class InvinciBagel extends Application {
      */
     private void loadAudioAssets() {
         iAudioFile0 = getClass().getResource("/leftmono.wav");
+
         iSound0 = new AudioClip(iAudioFile0.toString());
 
         iAudioFile1 = getClass().getResource("/rightmono.wav");
@@ -371,28 +372,27 @@ public class InvinciBagel extends Application {
 
     // ------------ Access to AudioClips ---------------
 
-
-    public void playiSound0(AudioClip iSound0) {
+    public void playiSound0() {
         this.iSound0.play();
     }
 
-    public void playiSound1(AudioClip iSound1) {
+    public void playiSound1() {
         this.iSound1.play();
     }
 
-    public void playiSound2(AudioClip iSound2) {
+    public void playiSound2() {
         this.iSound2.play();
     }
 
-    public void playiSound3(AudioClip iSound3) {
+    public void playiSound3() {
         this.iSound3.play();
     }
 
-    public void playiSound4(AudioClip iSound4) {
+    public void playiSound4() {
         this.iSound4.play();
     }
 
-    public void playiSound5(AudioClip iSound5) {
+    public void playiSound5() {
         this.iSound5.play();
     }
 }
