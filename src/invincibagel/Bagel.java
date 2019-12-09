@@ -50,6 +50,9 @@ public class Bagel extends Hero {
 
         if(collisionDetect){
             invinciBagel.playiSound0();
+            invinciBagel.castingDirector.addToRemovedActors(object);
+            invinciBagel.root.getChildren().remove(object.getSpriteFrame()); //remove object from the stackPane
+            invinciBagel.castingDirector.resetRemovedActors();
             return true;
         }
 

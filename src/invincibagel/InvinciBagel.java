@@ -29,7 +29,7 @@ public class InvinciBagel extends Application {
     private boolean wKey, aKey, sKey, dKey; // key codes false by default
     private HBox buttonContainer;
     private Scene scene;
-    private StackPane root;
+    StackPane root;
 
     Bagel iBagel; // main sprite
     Prop iPR0, iPR1; // static sprite
