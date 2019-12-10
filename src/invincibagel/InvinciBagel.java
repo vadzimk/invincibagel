@@ -5,6 +5,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
@@ -16,8 +17,11 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.media.AudioClip;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.stage.Window;
 
 import java.net.URL;
 
@@ -29,7 +33,7 @@ public class InvinciBagel extends Application {
     private boolean wKey, aKey, sKey, dKey; // key codes false by default
     private HBox buttonContainer;
     private Scene scene;
-    StackPane root;
+    Group root;
 
     Bagel iBagel; // main sprite
     Prop iPR0, iPR1; // static sprite
@@ -37,8 +41,10 @@ public class InvinciBagel extends Application {
     PropV iPV0, iPV1; // static sprite vertical flip
     PropB iPB0; // static sprite vartical and horizontal flip
 
+    Treasure iTR0, iTR1;
+
     private Image splashScreen, instructionLayer, legalLayer, scoresLayer;
-    private Image iB0, iB1, iB2, iB3, iB4, iB5, iB6, iB7, iB8, iP0, iP1;
+    private Image iB0, iB1, iB2, iB3, iB4, iB5, iB6, iB7, iB8, iP0, iP1, iT0,iT1;
     private ImageView splashScreenBackPlate, splashScreenTextArea;
     private Button gameButton, helpButton, scoreButton, legalButton;
     private Insets buttonContainerPadding;
@@ -49,15 +55,19 @@ public class InvinciBagel extends Application {
     private GamePlayLoop gamePlayLoop;
     CastingDirector castingDirector;
 
+    int gameScore = 0;
+    Text scoreText, scoreLabel;
+    private Font scoreFont;
+
     public static void main(String[] args) {
         launch(args);
     }
 
     @Override
     public void start(Stage primaryStge) {
-        root = new StackPane();
+        root = new Group();
         //root.setAlignment(Pos.TOP_LEFT); with .setAlignment() I can position elements added to the stackPane the way other than default: POS_CENTER
-        root.setBackground(Background.EMPTY);
+        //root.setBackground(Background.EMPTY);
         scene = new Scene(root, WIDTH, HEIGHT, Color.DARKGREY);
 
         primaryStge.setTitle("InvinciBagel");
@@ -81,8 +91,22 @@ public class InvinciBagel extends Application {
      * Scene Graph node creation
      */
     private void createSplashScreenNodes() {
+
+        scoreText = new Text(String.valueOf(gameScore));
+        scoreText.setLayoutY(HEIGHT-15);
+        scoreText.setLayoutX(WIDTH - 115);
+        scoreFont = new Font("Verdana", 20);
+        scoreText.setFont(scoreFont);
+        scoreText.setFill(Color.BLUE);
+
+        scoreLabel = new Text("SCORE: ");
+        scoreLabel.setLayoutY(385);
+        scoreLabel.setLayoutX(445);
+        scoreLabel.setFont(scoreFont);
+        scoreLabel.setFill(Color.BLACK);
+
         buttonContainer = new HBox(12);
-        buttonContainer.setAlignment(Pos.BOTTOM_LEFT);
+        buttonContainer.setLayoutY(HEIGHT-35);
         buttonContainerPadding = new Insets(0, 0, 10, 16);
         buttonContainer.setPadding(buttonContainerPadding);
 
@@ -135,7 +159,10 @@ public class InvinciBagel extends Application {
         root.getChildren().addAll(
                 splashScreenBackPlate,
                 splashScreenTextArea,
-                buttonContainer);
+                buttonContainer,
+                scoreLabel,
+                scoreText
+        );
     }
 
     /**
@@ -249,6 +276,9 @@ public class InvinciBagel extends Application {
         iB8 = new Image("/sprite8.png", 81, 81, true, false, true);
         iP0 = new Image("/prop0.png", 82, 32, true, false, true);
 //        iP1 = new Image("/prop1.png", 496, 92, true, false, true);
+
+        iT0 = new Image("/treasure1.png", 64,64,true,false,true);
+        iT1 = new Image("/treasure2.png", 64,64,true,false, true);
     }
 
     /**
@@ -257,14 +287,17 @@ public class InvinciBagel extends Application {
     private void createGameActors() {
         iBagel = new Bagel(this,
                 "M57,10 L46,25 30,26 30,41 18,41 18,44 27,56 37,57 35,75 39,81 43,81 45,53 54,40 63,43 72,26 Z",
-                0, 0, iB0, iB1, iB2, iB3, iB4, iB5, iB6, iB7, iB8); //the this references the current Invincibagel object that is the 1st parameter of the Bagel constructor
+                WIDTH/2, HEIGHT/2, iB0, iB1, iB2, iB3, iB4, iB5, iB6, iB7, iB8); //the this references the current Invincibagel object that is the 1st parameter of the Bagel constructor
 
-        iPR0 = new Prop("M0 0 L0 32 72 32 72 0 Z", 0, 148, iP0); // static brick wall basic object
-        iPR1 = new Prop("M150 0 L75 200 L225 200 Z", 0, -150, iP1);  // big background image object
-        iPV1 = new PropV("M150 0 L75 200 L225 200 Z", 0, -58, iP1); // flipped big background image object
-        iPH0 = new PropH("M150 0 L75 200 L225 200 Z", 72, 148, iP0); // static brick wall flipped H object
-        iPV0 = new PropV("M150 0 L75 200 L225 200 Z", 0, 116, iP0); // static brick wall flipped V object
-        iPB0 = new PropB("M150 0 L75 200 L225 200 Z", 72, 116, iP0); // static brick wall flipped H, V object
+        iPR0 = new Prop("M0 0 L0 32 72 32 72 0 Z", 30, 50, iP0); // static brick wall basic object
+        iPR1 = new Prop("M150 0 L75 200 L225 200 Z", 175,250, iP1);  // big background image object
+        iPV1 = new PropV("M150 0 L75 200 L225 200 Z", 390, 110, iP1); // flipped big background image object
+        iPH0 = new PropH("M150 0 L75 200 L225 200 Z", 500, 300, iP0); // static brick wall flipped H object
+        iPV0 = new PropV("M150 0 L75 200 L225 200 Z", 50, 110, iP0); // static brick wall flipped V object
+        iPB0 = new PropB("M150 0 L75 200 L225 200 Z", 540, 210, iP0); // static brick wall flipped H, V object
+
+        iTR0 = new Treasure("M0 0 L0 64 64 64 64 0 Z", 50,170,iT0);
+        iTR1 = new Treasure("M0 0 L0 64 64 64 64 0 Z", 533, 110, iT1);
     }
 
     /**
@@ -278,6 +311,9 @@ public class InvinciBagel extends Application {
         root.getChildren().add(iPH0.spriteFrame);
         root.getChildren().add(iPV0.spriteFrame);
         root.getChildren().add(iPB0.spriteFrame);
+        root.getChildren().add(iTR0.spriteFrame);
+        root.getChildren().add(iTR1.spriteFrame);
+
 
         root.getChildren().add(iBagel.spriteFrame);
     }
@@ -287,7 +323,7 @@ public class InvinciBagel extends Application {
      */
     private void createCastingDirection() {
         castingDirector = new CastingDirector();
-        castingDirector.addCurrentCast(iPR0, iPH0, iPV0, iPB0);
+        castingDirector.addCurrentCast(iPR0, iPH0,iPV0, iPB0, iTR0, iTR1);
     }
 
     /**

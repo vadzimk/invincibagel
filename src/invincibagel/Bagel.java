@@ -11,10 +11,10 @@ public class Bagel extends Hero {
     protected InvinciBagel invinciBagel; //holds a reference to the current state of the InvinciBagel game. Protected access allows any subclass of Bagel to access this field
     protected static final double SPRITE_PIXELS_X = 81;
     protected static final double SPRITE_PIXELS_Y = 81;
-    protected static final double rightBoundary = WIDTH / 2 - SPRITE_PIXELS_X / 2;
-    protected static final double leftBoundary = -(WIDTH / 2 - SPRITE_PIXELS_X / 2);
-    protected static final double bottomBoundary = HEIGHT / 2 - SPRITE_PIXELS_Y / 2;
-    protected static final double topBoundary = -(HEIGHT / 2 - SPRITE_PIXELS_Y / 2);
+    protected static final double rightBoundary = WIDTH - SPRITE_PIXELS_X;
+    protected static final double leftBoundary = 0;
+    protected static final double bottomBoundary = HEIGHT - SPRITE_PIXELS_Y;
+    protected static final double topBoundary = 0;
     private boolean animator = false; // a flag used to alternate between imageView(1) - if false and imageView(2) - if true.
     int frameCounter = 0;
     int runningSpeed = 6; // holds the number of animator cycles to skip before changing the ImageView
@@ -35,8 +35,6 @@ public class Bagel extends Hero {
 //        playAudioClip();
         checkCollision();
     }
-
-
 
 
     /**
@@ -182,26 +180,49 @@ public class Bagel extends Hero {
     private void checkCollision() {
         for (int i = 0; i < invinciBagel.castingDirector.getCurrentCast().size(); i++) {
             Actor object = invinciBagel.castingDirector.getCurrentCast().get(i);
-            if(collide(object)){
-                invinciBagel.playiSound0();
+            if (collide(object)) {
+
                 invinciBagel.castingDirector.addToRemovedActors(object);
                 invinciBagel.root.getChildren().remove(object.getSpriteFrame()); //remove object from the stackPane
                 invinciBagel.castingDirector.resetRemovedActors();
+                scoringEngine(object);
             }
         }
     }
 
+    /**
+     * Updates the score and plays sound
+     */
+    private void scoringEngine(Actor object) {
+        if (object instanceof Prop) {
+            invinciBagel.gameScore -= 1;
+            invinciBagel.playiSound0();
+        } else if (object instanceof PropV) {
+            invinciBagel.gameScore -= 2;
+            invinciBagel.playiSound1();
+        } else if (object instanceof PropH) {
+            invinciBagel.gameScore -= 1;
+            invinciBagel.playiSound2();
+        } else if (object instanceof PropB) {
+            invinciBagel.gameScore -= 2;
+            invinciBagel.playiSound3();
+        } else  if (object instanceof Treasure){
+            invinciBagel.gameScore +=5;
+            invinciBagel.playiSound4();
+        }
+
+        invinciBagel.scoreText.setText(String.valueOf(invinciBagel.gameScore));
+
+    }
+
     @Override
     public boolean collide(Actor object) {
-
         if (invinciBagel.iBagel.spriteFrame.getBoundsInParent().intersects(object.getSpriteFrame().getBoundsInParent()
         )) { //first level of collision detection - the spriteFrame's node's rectangular bounds
             //second level of collision detection - the SVGPath's shape's intersect: shape method
             Shape intersection = SVGPath.intersect(invinciBagel.iBagel.getSpriteBound(), object.getSpriteBound());
             if (intersection.getBoundsInLocal().getWidth() != -1) return true;
-
         }
-
         return false;
     }
 

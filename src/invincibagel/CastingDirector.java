@@ -8,7 +8,9 @@ public class CastingDirector {
     private final List<Actor> COLLIDE_CHECKLIST;//holds objects that are participating in collision detection
     private final Set<Actor> REMOVED_ACTORS; //hold Actors that need to be removed from the current Scene
 
-    /** Checks for collision of the iBagel with the actors that are in the current cast*/
+    /**
+     * Checks for collision of the iBagel with the actors that are in the current cast
+     */
     public CastingDirector() {
         this.CURRENT_CAST = new ArrayList<>();
         this.COLLIDE_CHECKLIST = new ArrayList<>();
@@ -20,9 +22,15 @@ public class CastingDirector {
         return CURRENT_CAST;
     }
 
-   /** Adds to the list of check for collision in the scene with the main character - iBagel*/
+    /**
+     * Adds to the list of check for collision in the scene with the main character - iBagel
+     */
     public void addCurrentCast(Actor... actors) {
-        CURRENT_CAST.addAll(Arrays.asList(actors));
+        if (actors.length > 1)
+            CURRENT_CAST.addAll(Arrays.asList(actors));
+        else
+            CURRENT_CAST.add(actors[0]);
+
     }
 
     public void removeCurrentCast(Actor... actors) {
