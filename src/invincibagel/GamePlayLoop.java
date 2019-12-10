@@ -16,6 +16,7 @@ public class GamePlayLoop extends AnimationTimer {
     public void handle(long now) {
         //Everything inside the handle method will be executed 60times per second (60FPS)
         invinciBagel.iBagel.update();
+        invinciBagel.iEnemy.update();
     }
 
     @Override
