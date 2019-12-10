@@ -14,7 +14,7 @@ public abstract class Actor {
     protected SVGPath spriteBound; // holds collision shape SVG polyline
     protected ImageView spriteFrame; //holds current sprite imageView
     protected List<Image> imageStates = new ArrayList<>();
-    protected double iX, iY;  // initial location
+    protected double iX, iY;  //  location of the iBagel
     protected double pX, pY; // pivot point location
 
     protected boolean

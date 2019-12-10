@@ -10,6 +10,7 @@ public class Enemy extends Actor {
     int attackCounter = 0;
     int attackFrequency = 250;
     int attackBoundry = 300;
+    int iBagelLocation;
     boolean takeSides = false;
     boolean onScreen = false;
     boolean callAttack = false; // flag
@@ -45,25 +46,29 @@ public class Enemy extends Actor {
                 spriteMoveR = 700; // places enemy off the visible screen if on the right
                 spriteMoveL = -70; // places enemy off the visible screen if on the left
                 randomLocation = randomNum.nextInt(attackBoundry);
-                spriteFrame.setTranslateY(randomLocation);
-                randomOffset = randomLocation + 5;
+                iBagelLocation = (int) invinciBagel.iBagel.getiY();
                 bulletType = randomNum.nextBoolean();
+                if (bulletType) { //if shoots cheese - random Y position
+                    spriteFrame.setTranslateY(randomLocation);
+                    randomOffset = randomLocation + 5;
+                } else { // if shoots bullet - target at the iBagel
+                    spriteFrame.setTranslateY(iBagelLocation);
+                    randomOffset = iBagelLocation + 5;
+                }
                 takeSides = randomNum.nextBoolean();
                 callAttack = true;
             } else {
-                ++attackCounter;
+                attackCounter += 1;
             }
-        }
-
-        if (callAttack) {
+        } else {
             initiateAttack();
         }
 
         if (shootBullet) {
             shootProjectile();
-            if(pauseCounter>=60){
-                launchIt =true;
-                pauseCounter =0;
+            if (pauseCounter >= 60) {
+                launchIt = true;
+                pauseCounter = 0;
             } else {
                 pauseCounter++;
             }
@@ -151,10 +156,11 @@ public class Enemy extends Actor {
                     onScreen = false;
 
                     callAttack = false;
-                    launchIt =false;
+                    launchIt = false;
                     loadBullet();
                     loadCheese();
                     loadEnemy();
+                    attackFrequency = 30 + randomNum.nextInt(250);
                 }
             }
 
@@ -185,6 +191,7 @@ public class Enemy extends Actor {
                             loadBullet();
                             loadCheese();
                             loadEnemy();
+                            attackFrequency = 30 + randomNum.nextInt(250);
                         }
                     }
                 }
@@ -192,11 +199,11 @@ public class Enemy extends Actor {
         }
     }
 
-    private void loadBullet(){
+    private void loadBullet() {
         //if there is a bullet in the current cast - nothing to load
-        for(int i=0; i<invinciBagel.castingDirector.getCurrentCast().size(); ++i){
+        for (int i = 0; i < invinciBagel.castingDirector.getCurrentCast().size(); ++i) {
             Actor object = invinciBagel.castingDirector.getCurrentCast().get(i);
-            if(object.equals(invinciBagel.iBullet)){
+            if (object.equals(invinciBagel.iBullet)) {
                 return;
             }
         }
@@ -205,11 +212,11 @@ public class Enemy extends Actor {
         invinciBagel.root.getChildren().add(invinciBagel.iBullet.spriteFrame);
     }
 
-    private void loadCheese(){
+    private void loadCheese() {
         //if there is cheese in the current cast -  nothing to load
-        for(int i=0; i<invinciBagel.castingDirector.getCurrentCast().size(); ++i){
+        for (int i = 0; i < invinciBagel.castingDirector.getCurrentCast().size(); ++i) {
             Actor object = invinciBagel.castingDirector.getCurrentCast().get(i);
-            if (object.equals(invinciBagel.iCheese)){
+            if (object.equals(invinciBagel.iCheese)) {
                 return;
             }
         }
@@ -219,11 +226,11 @@ public class Enemy extends Actor {
         invinciBagel.root.getChildren().add(invinciBagel.iCheese.spriteFrame);
     }
 
-    private void loadEnemy(){
+    private void loadEnemy() {
         //if there is enemy in the current cat - nothing to load
-        for (int i=0; i<invinciBagel.castingDirector.getCurrentCast().size(); ++i){
+        for (int i = 0; i < invinciBagel.castingDirector.getCurrentCast().size(); ++i) {
             Actor object = invinciBagel.castingDirector.getCurrentCast().get(i);
-            if(object.equals(invinciBagel.iEnemy)){
+            if (object.equals(invinciBagel.iEnemy)) {
                 return;
             }
         }
