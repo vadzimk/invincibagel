@@ -14,6 +14,7 @@ public class Enemy extends Actor {
     boolean onScreen = false;
     boolean callAttack = false; // flag
     boolean shootBullet = false;
+    boolean bulletType = false; // false  - bullet, true - cheese
     int spriteMoveR, spriteMoveL, // holds the current Enemy right and left side xLocation
             destination; //holds destination to move
     int randomLocation, //  for the enemy and projectile
@@ -46,6 +47,8 @@ public class Enemy extends Actor {
                 randomLocation = randomNum.nextInt(attackBoundry);
                 spriteFrame.setTranslateY(randomLocation);
                 randomOffset = randomLocation + 5;
+                bulletType = randomNum.nextBoolean();
+                takeSides = randomNum.nextBoolean();
                 callAttack = true;
             } else {
                 ++attackCounter;
@@ -68,7 +71,9 @@ public class Enemy extends Actor {
     }
 
     private void shootProjectile() {
-        if (!takeSides) { // enemy on the left side of the screen
+
+        // projectile - bullet
+        if (!bulletType && !takeSides) { // enemy on the left side of the screen
             invinciBagel.iBullet.spriteFrame.setTranslateY(randomOffset);
             invinciBagel.iBullet.spriteFrame.setScaleX(-0.5);
             invinciBagel.iBullet.spriteFrame.setScaleY(0.5);
@@ -80,7 +85,7 @@ public class Enemy extends Actor {
                 shootBullet = false; // only one shot is fired
             }
         }
-        if (takeSides) { // enemy on the right side of the screen
+        if (!bulletType && takeSides) { // enemy on the right side of the screen
             invinciBagel.iBullet.spriteFrame.setTranslateY(randomOffset);
             invinciBagel.iBullet.spriteFrame.setScaleX(0.5);
             invinciBagel.iBullet.spriteFrame.setScaleY(0.5);
@@ -88,6 +93,33 @@ public class Enemy extends Actor {
             if (bulletOffset < bulletRange) { // move bullet towards its x destination
                 bulletOffset += 4;
                 invinciBagel.iBullet.spriteFrame.setTranslateX(bulletOffset);
+            } else {
+                shootBullet = false;
+            }
+        }
+
+        // projectile - cheese
+
+        if (bulletType && !takeSides) { // enemy on the left side of the screen
+            invinciBagel.iCheese.spriteFrame.setTranslateY(randomOffset);
+            invinciBagel.iCheese.spriteFrame.setScaleX(-0.5);
+            invinciBagel.iCheese.spriteFrame.setScaleY(0.5);
+            bulletRange = -50; // cheese x destination
+            if (bulletOffset >= bulletRange) { //move cheese towards its x destination
+                bulletOffset -= 4;
+                invinciBagel.iCheese.spriteFrame.setTranslateX(bulletOffset);
+            } else {
+                shootBullet = false; // only one shot is fired
+            }
+        }
+        if (bulletType && takeSides) { // enemy on the right side of the screen
+            invinciBagel.iCheese.spriteFrame.setTranslateY(randomOffset);
+            invinciBagel.iCheese.spriteFrame.setScaleX(0.5);
+            invinciBagel.iCheese.spriteFrame.setScaleY(0.5);
+            bulletRange = 624; // cheese x destination
+            if (bulletOffset < bulletRange) { // move cheese towards its x destination
+                bulletOffset += 4;
+                invinciBagel.iCheese.spriteFrame.setTranslateX(bulletOffset);
             } else {
                 shootBullet = false;
             }
@@ -117,9 +149,12 @@ public class Enemy extends Actor {
                     spriteFrame.setTranslateX(spriteMoveR);
                 } else {
                     onScreen = false;
-                    takeSides = true;
+
                     callAttack = false;
                     launchIt =false;
+                    loadBullet();
+                    loadCheese();
+                    loadEnemy();
                 }
             }
 
@@ -144,13 +179,58 @@ public class Enemy extends Actor {
                             spriteFrame.setTranslateX(spriteMoveL);
                         } else {
                             onScreen = false;
-                            takeSides = false;
+
                             callAttack = false;
                             launchIt = false;
+                            loadBullet();
+                            loadCheese();
+                            loadEnemy();
                         }
                     }
                 }
             }
         }
     }
+
+    private void loadBullet(){
+        //if there is a bullet in the current cast - nothing to load
+        for(int i=0; i<invinciBagel.castingDirector.getCurrentCast().size(); ++i){
+            Actor object = invinciBagel.castingDirector.getCurrentCast().get(i);
+            if(object.equals(invinciBagel.iBullet)){
+                return;
+            }
+        }
+        //load a bullet
+        invinciBagel.castingDirector.addCurrentCast(invinciBagel.iBullet);
+        invinciBagel.root.getChildren().add(invinciBagel.iBullet.spriteFrame);
+    }
+
+    private void loadCheese(){
+        //if there is cheese in the current cast -  nothing to load
+        for(int i=0; i<invinciBagel.castingDirector.getCurrentCast().size(); ++i){
+            Actor object = invinciBagel.castingDirector.getCurrentCast().get(i);
+            if (object.equals(invinciBagel.iCheese)){
+                return;
+            }
+        }
+
+        // load cheese
+        invinciBagel.castingDirector.addCurrentCast(invinciBagel.iCheese);
+        invinciBagel.root.getChildren().add(invinciBagel.iCheese.spriteFrame);
+    }
+
+    private void loadEnemy(){
+        //if there is enemy in the current cat - nothing to load
+        for (int i=0; i<invinciBagel.castingDirector.getCurrentCast().size(); ++i){
+            Actor object = invinciBagel.castingDirector.getCurrentCast().get(i);
+            if(object.equals(invinciBagel.iEnemy)){
+                return;
+            }
+        }
+
+        // load enemy
+        invinciBagel.castingDirector.addCurrentCast(invinciBagel.iEnemy);
+        invinciBagel.root.getChildren().add(invinciBagel.iEnemy.spriteFrame);
+    }
+
 }

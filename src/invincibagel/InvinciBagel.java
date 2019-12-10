@@ -323,8 +323,8 @@ public class InvinciBagel extends Application {
         iTR1 = new Treasure("M0 0 L0 64 64 64 64 0 Z", 533, 110, iT1);
 
         iEnemy = new Enemy(this,"M0 6 L0 52 70 52 70 70 70 93 115 45 115 0 84 0 68 16 Z", 520, 160, iE0);
-        iBullet = new Projectile("M0 4 L0 16 64 16 64 4 Z", 8, 8, iC0);
-        iCheese = new Projectile("M0 0 L0 32 32 32 32 0 Z", 96, 8, iC1);
+        iBullet = new Projectile("M0 4 L0 16 64 16 64 4 Z", -70, 0, iC0); //initially placed off the scene
+        iCheese = new Projectile("M0 0 L0 32 32 32 32 0 Z", -32, 0, iC1); // initially placed off the scene
     }
 
     /**
@@ -340,12 +340,12 @@ public class InvinciBagel extends Application {
         root.getChildren().add(iPB0.spriteFrame);
         root.getChildren().add(iTR0.spriteFrame);
         root.getChildren().add(iTR1.spriteFrame);
-        root.getChildren().add(iEnemy.spriteFrame);
+
         root.getChildren().add(iBullet.spriteFrame);
         root.getChildren().add(iCheese.spriteFrame);
 
-
-        root.getChildren().add(iBagel.spriteFrame);
+        root.getChildren().add(iEnemy.spriteFrame);
+        root.getChildren().add(iBagel.spriteFrame); // last call  - highest z-index (on top of all)
     }
 
     /**
