@@ -322,7 +322,7 @@ public class InvinciBagel extends Application {
         iTR0 = new Treasure("M0 0 L0 64 64 64 64 0 Z", 50, 170, iT0);
         iTR1 = new Treasure("M0 0 L0 64 64 64 64 0 Z", 533, 110, iT1);
 
-        iEnemy = new Enemy("M0 6 L0 52 70 52 70 70 70 93 115 45 115 0 84 0 68 16 Z", 520, 160, iE0);
+        iEnemy = new Enemy(this,"M0 6 L0 52 70 52 70 70 70 93 115 45 115 0 84 0 68 16 Z", 520, 160, iE0);
         iBullet = new Projectile("M0 4 L0 16 64 16 64 4 Z", 8, 8, iC0);
         iCheese = new Projectile("M0 0 L0 32 32 32 32 0 Z", 96, 8, iC1);
     }
